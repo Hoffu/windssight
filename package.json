@@ -1,0 +1,15 @@
+{
+  "name": "windssight",
+  "version": "1.0.0",
+  "description": "A simple bot for discord",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hoffu",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.7.1",
+    "got": "^11.8.3"
+  }
+}
