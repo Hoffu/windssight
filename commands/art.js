@@ -31,17 +31,21 @@ module.exports = {
         }
 
         if(splittedTag.length > 3 || splittedTag.length < 1) {
-            await interaction.reply({ content: "Incorrect input, please, try again" });
+            await interaction.reply({ content: "Incorrect input, please, try again", ephemeral: true });
         } else {
             const postProm = getPost(splittedTag, bannedParts.map(x => x.substring(1)));
             postProm.then(async post => {
-                const embed = createEmbed(
-                    post.file_url,
-                    "https://danbooru.donmai.us/posts/" + post.id,
-                    post.usersTagUsedForSearching
-                );
-
-		        await interaction.reply({ embeds: [embed] });
+                if(!!post.error) {
+                    await interaction.reply({ content: post.error, ephemeral: true });
+                } else {
+                    const embed = createEmbed(
+                        post.file_url,
+                        "https://danbooru.donmai.us/posts/" + post.id,
+                        !!post.file_url ? post.usersTagUsedForSearching.replace(/_/g, ' ') : "Post was deleted due to artist's request, try again"
+                    );
+    
+                    await interaction.reply({ embeds: [embed] });
+                }
             });
         }
 	},

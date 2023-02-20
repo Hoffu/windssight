@@ -40,7 +40,7 @@ async function getTags(input, bannedParts) {
                 params += tag;
                 params += "*";
             });
-            let prom = fetchBooruAPI('tags.json?search[name_matches]=' + params);
+            let prom = fetchBooruAPI('tags.json?search[name_matches]=' + params + '&limit=150');
             prom.then(data => {
                 data
                     .filter(x => x.post_count > 0)
@@ -69,9 +69,18 @@ module.exports = {
             await fetchBooruAPI('posts.json?tags=' + possibleTags[rndNum].name + '&random=true&limit=1').then(data => {
                 result = data[0];
             });
+
+            if(!result) {
+                return { error: "Error, tag was found, but no posts matching it" };
+            }
+
             return {
                 ...result,
                 usersTagUsedForSearching: possibleTags[rndNum].name
+            };
+        } else {
+            return {
+                error: "Error, no tags were found matching the specified criteria"
             };
         }
     }
