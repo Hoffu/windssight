@@ -20,19 +20,20 @@ module.exports = {
 			Jimp.loadFont("./fonts/calibri/calibri-black-18.fnt").then(async (font) => {
 				image.print(
 					font,
-					135,
+					100,
 					440,
 					text,
-					400
+					340
 				);
-				image.write('./pictures/output.jpg');
-				const attachment = new AttachmentBuilder('./pictures/output.jpg', { name: 'output.jpg' });
+				image.writeAsync('./pictures/output.jpg').then(async res => {
+					const attachment = new AttachmentBuilder('./pictures/output.jpg', { name: 'output.jpg' });
 
-				const embed = new EmbedBuilder()
-					.setColor(0xeef5f5)
-					.setImage('attachment://output.jpg');
+					const embed = new EmbedBuilder()
+						.setColor(0xeef5f5)
+						.setImage('attachment://output.jpg');
 
-				await interaction.reply({ embeds: [embed], files: [attachment]});
+					await interaction.reply({ embeds: [embed], files: [attachment]});
+				});
 			});
 		});
 	},
