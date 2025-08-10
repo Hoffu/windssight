@@ -6,7 +6,7 @@ const createEmbed = (selectedMessage) => {
         .setColor(0xeef5f5)
         .setURL(selectedMessage?.url)
         .setTitle(selectedMessage?.id)
-	    .setDescription(selectedMessage?.content + `\n(c) <@${selectedMessage?.author?.id}>`)
+	    .setDescription(`"${selectedMessage?.content}"\n\n(c) <@${selectedMessage?.author?.id}>`)
         .setTimestamp(selectedMessage?.createdTimestamp);
 }
 
