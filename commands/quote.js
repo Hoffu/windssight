@@ -8,7 +8,7 @@ const createEmbed = (selectedMessage) => {
     return new EmbedBuilder()
         .setURL(selectedMessage?.url)
         .setTitle(quote)
-	    .setDescription({ text: `(c) <@${selectedMessage?.author?.id}>` })
+	    .setDescription(`(c) <@${selectedMessage?.author?.id}>`)
         .setImage(imageUrl)
         .setTimestamp(selectedMessage?.createdTimestamp);
 }
