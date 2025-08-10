@@ -30,15 +30,18 @@ module.exports = {
                 .fetch({ limit: 1 })
                 .then(messagePage => (messagePage.size === 1 ? messagePage.at(0) : null));
 
-            while (message) {
+            let i = 50;
+
+            while (message && i > 0) {
+                i--;
                 await channel.messages
-                .fetch({ limit: 100, before: message.id })
-                .then(messagePage => {
-                    messagePage.forEach(msg => {
-                        if(msg.content) messages[channel.id].push(msg);
+                    .fetch({ limit: 100, before: message.id })
+                    .then(messagePage => {
+                        messagePage.forEach(msg => {
+                            if(msg.content) messages[channel.id].push(msg);
+                        });
+                        message = 0 < messagePage.size ? messagePage.at(messagePage.size - 1) : null;
                     });
-                    message = 0 < messagePage.size ? messagePage.at(messagePage.size - 1) : null;
-                });
             }
         }
 
