@@ -2,16 +2,11 @@ const { SlashCommandBuilder } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 
 const createEmbed = (selectedMessage) => {
-    const imageUrl = selectedMessage?.attachments?.[0]?.url;
-    console.log(JSON.stringify(selectedMessage))
-    const quote = selectedMessage.content ? `"${selectedMessage.content}"` : null;
-
     return new EmbedBuilder()
         .setColor(0xeef5f5)
         .setURL(selectedMessage?.url)
         .setTitle(selectedMessage?.id)
-	    .setDescription(quote + `\n(c) <@${selectedMessage?.author?.id}>`)
-        .setImage(imageUrl)
+	    .setDescription(selectedMessage?.content + `\n(c) <@${selectedMessage?.author?.id}>`)
         .setTimestamp(selectedMessage?.createdTimestamp);
 }
 
@@ -26,7 +21,7 @@ module.exports = {
         await interaction.deferReply({ ephemeral: false });
         
         if(messages.length === 0) {
-            let i = 10;
+            let i = 100;
             const channel = client.channels.cache.get("424535278816854017");
 
             let message = await channel.messages
@@ -38,7 +33,9 @@ module.exports = {
                 await channel.messages
                 .fetch({ limit: 100, before: message.id })
                 .then(messagePage => {
-                    messagePage.forEach(msg => messages.push(msg));
+                    messagePage.forEach(msg => {
+                        if(msg.content) messages.push(msg);
+                    });
                     message = 0 < messagePage.size ? messagePage.at(messagePage.size - 1) : null;
                 });
             }
