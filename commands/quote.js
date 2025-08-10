@@ -13,7 +13,8 @@ module.exports = {
 		.setName('quote')
 		.setDescription('Golden Quotes Foundation'),
 	async execute(interaction, client) {
-        const channel = client.channels.fetch("424535278816854017");
+        const channel = client.channels.cache.get("424535278816854017");
+        console.log(channel)
         const rand = (max, min) => Math.floor(Math.random() * (max - min + 1) + min);
         let messages = [];
         let i = rand(1, 100);
