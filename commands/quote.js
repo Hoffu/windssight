@@ -3,7 +3,7 @@ const { EmbedBuilder } = require('discord.js');
 
 const createEmbed = (selectedMessage) => {
     const imageUrl = selectedMessage?.attachments?.[0]?.url;
-    console.log(selectedMessage?.attachments)
+    console.log(selectedMessage?.attachments?.[0])
     const quote = selectedMessage.content ? `"${selectedMessage.content}"` : null;
 
     return new EmbedBuilder()
