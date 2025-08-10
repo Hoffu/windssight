@@ -12,7 +12,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('quote')
 		.setDescription('Golden Quotes Foundation'),
-	async execute(interaction) {
+	async execute(interaction, client) {
         const channel = client.channels.fetch("424535278816854017");
         const rand = (max, min) => Math.floor(Math.random() * (max - min + 1) + min);
         let messages = [];
