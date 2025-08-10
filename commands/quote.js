@@ -13,6 +13,8 @@ module.exports = {
 		.setName('quote')
 		.setDescription('Golden Quotes Foundation'),
 	async execute(interaction, client) {
+        await interaction.deferReply({ ephemeral: true });
+
         const channel = client.channels.cache.get("424535278816854017");
         const rand = (max, min) => Math.floor(Math.random() * (max - min + 1) + min);
         let messages = [];
@@ -42,6 +44,6 @@ module.exports = {
             selectedMessage.createdTimestamp
         );
 
-        await interaction.reply({ embeds: [embed] });
+        await interaction.editReply({ embeds: [embed] });
 	},
 };
