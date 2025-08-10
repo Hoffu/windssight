@@ -38,7 +38,8 @@ module.exports = {
                     .fetch({ limit: 100, before: message.id })
                     .then(messagePage => {
                         messagePage.forEach(msg => {
-                            if(msg.content) messages[channel.id].push(msg);
+                            if (msg?.content && !msg?.content?.includes("https"))
+                                messages[channel.id].push(msg);
                         });
                         message = 0 < messagePage.size ? messagePage.at(messagePage.size - 1) : null;
                     });
