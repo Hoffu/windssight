@@ -22,7 +22,7 @@ module.exports = {
         const channel = interaction.channel;
         const channelMessages = messages[channel.id];
 
-        if(channelMessages.length === 0) {
+        if(channelMessages?.length) {
             let message = await channel.messages
                 .fetch({ limit: 1 })
                 .then(messagePage => (messagePage.size === 1 ? messagePage.at(0) : null));
