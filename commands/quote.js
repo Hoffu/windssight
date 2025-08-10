@@ -11,37 +11,35 @@ const createEmbed = (selectedMessage) => {
 }
 
 const rand = (max, min) => Math.floor(Math.random() * (max - min + 1) + min);
-const messages = [];
+const messages = {};
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('quote')
 		.setDescription('Golden Quotes Foundation'),
-	async execute(interaction, client) {
+	async execute(interaction) {
         await interaction.deferReply({ ephemeral: false });
-        
-        if(messages.length === 0) {
-            let i = 100;
-            const channel = client.channels.cache.get("424535278816854017");
+        const channel = interaction.channel;
+        const channelMessages = messages[channel.id];
 
+        if(channelMessages.length === 0) {
             let message = await channel.messages
                 .fetch({ limit: 1 })
                 .then(messagePage => (messagePage.size === 1 ? messagePage.at(0) : null));
 
-            while (message && i > 0) {
-                i--;
+            while (message) {
                 await channel.messages
                 .fetch({ limit: 100, before: message.id })
                 .then(messagePage => {
                     messagePage.forEach(msg => {
-                        if(msg.content) messages.push(msg);
+                        if(msg.content) channelMessages.push(msg);
                     });
                     message = 0 < messagePage.size ? messagePage.at(messagePage.size - 1) : null;
                 });
             }
         }
 
-        const selectedMessage = messages[rand(0, messages.length)];
+        const selectedMessage = channelMessages[rand(0, channelMessages.length)];
         message = null;
 
         const embed = createEmbed(selectedMessage);
