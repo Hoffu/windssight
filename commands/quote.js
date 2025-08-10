@@ -30,7 +30,7 @@ module.exports = {
                 .fetch({ limit: 1 })
                 .then(messagePage => (messagePage.size === 1 ? messagePage.at(0) : null));
 
-            let i = 50;
+            let i = 100;
 
             while (message && i > 0) {
                 i--;
