@@ -1,11 +1,16 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 
-const createEmbed = (quote, author, date) => {
+const createEmbed = (selectedMessage) => {
+    const imageUrl = selectedMessage?.attachments?.[0]?.url;
+    const quote = selectedMessage.content ? `"${selectedMessage.content}"` : "";
+
     return new EmbedBuilder()
-        .setDescription(`"${quote}"`)
-	    .setFooter({ text: `(c) ${author}` })
-        .setTimestamp(date);
+        .setURL(selectedMessage?.url)
+        .setDescription(quote)
+	    .setFooter({ text: `(c) <@${selectedMessage?.author?.id}>` })
+        .setImage(imageUrl)
+        .setTimestamp(selectedMessage?.createdTimestamp);
 }
 
 module.exports = {
@@ -18,7 +23,7 @@ module.exports = {
         const channel = client.channels.cache.get("424535278816854017");
         const rand = (max, min) => Math.floor(Math.random() * (max - min + 1) + min);
         let messages = [];
-        let i = rand(1, 10);
+        let i = rand(1, 100);
 
         let message = await channel.messages
             .fetch({ limit: 1 })
@@ -38,12 +43,7 @@ module.exports = {
         messages = null;
         message = null;
 
-        const embed = createEmbed(
-            selectedMessage.content,
-            selectedMessage.author.tag,
-            selectedMessage.createdTimestamp
-        );
-
+        const embed = createEmbed(selectedMessage);
         await interaction.editReply({ embeds: [embed] });
 	},
 };
