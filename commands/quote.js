@@ -3,10 +3,11 @@ const { EmbedBuilder } = require('discord.js');
 
 const createEmbed = (selectedMessage) => {
     const imageUrl = selectedMessage?.attachments?.[0]?.url;
-    console.log(selectedMessage?.attachments?.[0])
+    console.log(JSON.stringify(selectedMessage))
     const quote = selectedMessage.content ? `"${selectedMessage.content}"` : null;
 
     return new EmbedBuilder()
+        .setColor(0xeef5f5)
         .setURL(selectedMessage?.url)
         .setTitle(selectedMessage?.id)
 	    .setDescription(quote + `\n(c) <@${selectedMessage?.author?.id}>`)
