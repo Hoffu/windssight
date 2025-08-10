@@ -24,10 +24,8 @@ module.exports = {
         if(!messages[channel.id]) {
             messages[channel.id] = [];
         }
-        
-        const channelMessages = messages[channel.id];
 
-        if(channelMessages?.length) {
+        if(messages[channel.id]?.length) {
             let message = await channel.messages
                 .fetch({ limit: 1 })
                 .then(messagePage => (messagePage.size === 1 ? messagePage.at(0) : null));
@@ -37,17 +35,17 @@ module.exports = {
                 .fetch({ limit: 100, before: message.id })
                 .then(messagePage => {
                     messagePage.forEach(msg => {
-                        if(msg.content) channelMessages.push(msg);
+                        if(msg.content) messages[channel.id].push(msg);
                     });
                     message = 0 < messagePage.size ? messagePage.at(messagePage.size - 1) : null;
                 });
             }
         }
 
-        if(!channelMessages?.length) {
+        if(!messages[channel.id]?.length) {
             await interaction.editReply("No previous text messages.");
         } else {
-            const selectedMessage = channelMessages[rand(0, channelMessages.length)];
+            const selectedMessage = messages[channel.id][rand(0, messages[channel.id].length)];
             const embed = createEmbed(selectedMessage);
             await interaction.editReply({ embeds: [embed] });
         }
