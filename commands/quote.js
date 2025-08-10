@@ -51,5 +51,6 @@ module.exports = {
             const embed = createEmbed(selectedMessage);
             await interaction.editReply({ embeds: [embed] });
         }
+        console.log(messages)
 	},
 };
