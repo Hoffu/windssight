@@ -23,13 +23,12 @@ module.exports = {
             })
         }
 
-        const guild = interaction.guild;
-
-        const members = guild.members.filter(member => !member.user.bot);
-
-        const randomMember = members.random();
-
         try {
+            const members = await message.guild.members.fetch();
+            const filteredMembers = members.filter(member => !member.user.bot);
+
+            const randomMember = filteredMembers.random();
+
             await randomMember.setNickname(newNickname);
             await interaction.reply({
                 content: `Чурке ${randomMember} был изменен ник на ${newNickname}`
