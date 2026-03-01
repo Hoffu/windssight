@@ -24,25 +24,26 @@ module.exports = {
         }
 
         try {
+            await interaction.deferReply({ ephemeral: false });
             const members = await interaction.guild.members.fetch();
             const filteredMembers = members.filter(member => !member.user.bot);
 
             const randomMember = filteredMembers.random();
 
             await randomMember.setNickname(newNickname);
-            await interaction.reply({
+            await interaction.editReply({
                 content: `Чурке ${randomMember} был изменен ник на ${newNickname}`
             });
         } catch (error) {
             console.log(error)
 
             if(error.code === 50013) {
-                await interaction.reply({
+                await interaction.editReply({
                     content: 'У бота недостаточно прав для изменения никнейма или у юзера права выше чем у бота', 
 					ephemeral: true 
                 });
             } else {
-                await interaction.reply({
+                await interaction.editReply({
                     content: `Ошибка при изменении никнейма: ${error.message}`, 
 					ephemeral: true 
                 });
