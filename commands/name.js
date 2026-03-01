@@ -31,10 +31,12 @@ module.exports = {
             const randomMember = filteredMembers.random();
             const prevNickname = randomMember.nickname;
 
+            const message = prevNickname ?
+                `Чурке "${randomMember}" был изменен ник с ${prevNickname} на ${newNickname}` :
+                `Чурке "${randomMember}" был установлен ник ${newNickname}`;
+
             await randomMember.setNickname(newNickname);
-            await interaction.editReply({
-                content: `Чурке "${randomMember}" был изменен ник с ${prevNickname} на ${newNickname}`
-            });
+            await interaction.editReply({ content: message });
         } catch (error) {
             console.log(error)
 
@@ -43,7 +45,7 @@ module.exports = {
                     content: 'У бота недостаточно прав для изменения никнейма или у юзера права выше чем у бота', 
 					ephemeral: true 
                 });
-            } else if(error.name === "Members didn't arrive in time") {
+            } else if(error.code === 'GuildMembersTimeout') {
                 await interaction.editReply({
                     content: `Охлади траханье, приходи позже`, 
 					ephemeral: true 
