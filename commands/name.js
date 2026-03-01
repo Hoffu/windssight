@@ -25,7 +25,7 @@ module.exports = {
 
         const guild = interaction.guild;
 
-        const members = guild.members.cache.filter(member => !member.user.bot);
+        const members = guild.members.filter(member => !member.user.bot);
 
         const randomMember = members.random();
 
