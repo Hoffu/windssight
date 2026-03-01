@@ -33,7 +33,7 @@ module.exports = {
 
             await randomMember.setNickname(newNickname);
             await interaction.editReply({
-                content: `Чурке ${prevNickname} был изменен ник на ${newNickname}`
+                content: `Чурке "${randomMember}" был изменен ник с ${prevNickname} на ${newNickname}`
             });
         } catch (error) {
             console.log(error)
