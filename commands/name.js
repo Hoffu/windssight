@@ -1,7 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
 
-let isMembersUpdated = false;
-
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('name')
@@ -27,14 +25,10 @@ module.exports = {
 
         try {
             await interaction.deferReply({ ephemeral: false });
-            if(!isMembersUpdated) {
-                await interaction.guild.members.fetch();
-                isMembersUpdated = true;
-            }
+            const members = await interaction.guild.members.fetch();
+            const filteredMembers = members.filter(member => !member.user.bot);
 
-            const guild = interaction.guild;
-            const members = guild.members.cache.filter(member => !member.user.bot);
-            const randomMember = members.random();
+            const randomMember = filteredMembers.random();
             const prevNickname = randomMember;
 
             await randomMember.setNickname(newNickname);
@@ -47,6 +41,11 @@ module.exports = {
             if(error.code === 50013) {
                 await interaction.editReply({
                     content: 'У бота недостаточно прав для изменения никнейма или у юзера права выше чем у бота', 
+					ephemeral: true 
+                });
+            } else if(error.name === 'GuildMembersTimeout') {
+                await interaction.editReply({
+                    content: `Охлади траханье, приходи позже`, 
 					ephemeral: true 
                 });
             } else {
