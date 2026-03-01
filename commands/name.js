@@ -29,10 +29,11 @@ module.exports = {
             const filteredMembers = members.filter(member => !member.user.bot);
 
             const randomMember = filteredMembers.random();
+            const prevNickname = randomMember;
 
             await randomMember.setNickname(newNickname);
             await interaction.editReply({
-                content: `Чурке ${randomMember} был изменен ник на ${newNickname}`
+                content: `Чурке ${prevNickname} был изменен ник на ${newNickname}`
             });
         } catch (error) {
             console.log(error)
