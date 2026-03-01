@@ -24,7 +24,7 @@ module.exports = {
         }
 
         try {
-            const members = await message.guild.members.fetch();
+            const members = await interaction.guild.members.fetch();
             const filteredMembers = members.filter(member => !member.user.bot);
 
             const randomMember = filteredMembers.random();
