@@ -33,12 +33,15 @@ module.exports = {
         try {
             if(!members[channel.id].length) {
                 const members = await interaction.guild.members.fetch();
-                members[channel.id] = members.filter(member => !member.user.bot);
+                members[channel.id] = members[channel.id].push(
+                    ...members.filter(member => !member.user.bot)
+                );
             }
 
             await interaction.deferReply({ ephemeral: false });
 
-            const randomMember = members[channel.id].random();
+            const memberId = Math.floor(Math.random() * members[channel.id].length);
+            const randomMember = members[channel.id][memberId];
             const prevNickname = randomMember;
 
             await randomMember.setNickname(newNickname);
