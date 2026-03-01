@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 
-const isMembersUpdated = false;
+let isMembersUpdated = false;
 
 module.exports = {
     data: new SlashCommandBuilder()
