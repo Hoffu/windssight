@@ -33,7 +33,7 @@ module.exports = {
         try {
             if(!members[channel.id].length) {
                 const fetchedMembers = await interaction.guild.members.fetch();
-                members[channel.id].push(
+                members[channel.id] = members[channel.id].push(
                     ...fetchedMembers.filter(member => !member.user.bot)
                 );
             }
