@@ -1,5 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 
+const isMembersUpdated = false;
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('name')
@@ -25,10 +27,14 @@ module.exports = {
 
         try {
             await interaction.deferReply({ ephemeral: false });
-            const members = await interaction.guild.members.fetch();
-            const filteredMembers = members.filter(member => !member.user.bot);
+            if(!isMembersUpdated) {
+                await interaction.guild.members.fetch();
+                isMembersUpdated = true;
+            }
 
-            const randomMember = filteredMembers.random();
+            const guild = interaction.guild;
+            const members = guild.members.cache.filter(member => !member.user.bot);
+            const randomMember = members.random();
             const prevNickname = randomMember;
 
             await randomMember.setNickname(newNickname);
