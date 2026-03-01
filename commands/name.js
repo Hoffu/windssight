@@ -29,7 +29,7 @@ module.exports = {
             const filteredMembers = members.filter(member => !member.user.bot);
 
             const randomMember = filteredMembers.random();
-            const prevNickname = randomMember;
+            const prevNickname = randomMember.nickname;
 
             await randomMember.setNickname(newNickname);
             await interaction.editReply({
@@ -43,7 +43,7 @@ module.exports = {
                     content: 'У бота недостаточно прав для изменения никнейма или у юзера права выше чем у бота', 
 					ephemeral: true 
                 });
-            } else if(error.name === 'GuildMembersTimeout') {
+            } else if(error.name === "Members didn't arrive in time") {
                 await interaction.editReply({
                     content: `Охлади траханье, приходи позже`, 
 					ephemeral: true 
