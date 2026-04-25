@@ -7,6 +7,7 @@ module.exports = {
         .setDescription('Bot joins to the voice chat and chill there for 5-15 minutes'),
     async execute(interaction) {
         try {
+            await interaction.deferReply({ ephemeral: false });
             const player = createAudioPlayer();
             const resource = createAudioResource('./sounds/andrew.mp3');
 
@@ -18,12 +19,14 @@ module.exports = {
 
             const selfVoice = interaction.guild.members.me.voice;
 
+            selfVoice.setMute(false);
             selfVoice.setDeaf(false);
             connection.subscribe(player);
             player.play(resource);
 
             const soundDelay = 7000;
             setTimeout(() => {
+                selfVoice.setMute(true);
                 selfVoice.setDeaf(true);
             }, soundDelay);
 
@@ -33,9 +36,13 @@ module.exports = {
             const time = rand(300000, 900000);
 
             setTimeout(() => {
-                selfVoice.setDeaf(false);
+                await Promise.all([
+                    selfVoice.setMute(false),
+                    selfVoice.setDeaf(false)
+                ]);
                 connection.destroy();
             }, time + soundDelay);
+            await interaction.deleteReply();
         } catch (error) {
             console.log(error);
         }
