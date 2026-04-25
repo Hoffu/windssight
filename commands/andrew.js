@@ -35,7 +35,7 @@ module.exports = {
             }
             const time = rand(300000, 900000);
 
-            setTimeout(() => {
+            setTimeout(async () => {
                 await Promise.all([
                     selfVoice.setMute(false),
                     selfVoice.setDeaf(false)
