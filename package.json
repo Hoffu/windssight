@@ -9,6 +9,7 @@
   "author": "Hoffu",
   "license": "MIT",
   "dependencies": {
+    "@discordjs/voice": "^0.19.2",
     "discord.js": "^14.7.1",
     "got": "^11.8.3",
     "jimp": "^0.22.5"
