@@ -18,24 +18,21 @@ module.exports = {
 
             const selfVoice = interaction.guild.members.me.voice;
 
-            selfVoice.setMute(false);
             selfVoice.setDeaf(false);
             connection.subscribe(player);
             player.play(resource);
 
             const soundDelay = 7000;
             setTimeout(() => {
-                selfVoice.setMute(true);
                 selfVoice.setDeaf(true);
             }, soundDelay);
 
             const rand = (min, max) => {
                 return Math.floor(Math.random() * (max - min + 1)) + min;
             }
-            const time = rand(5000, 15000);
+            const time = rand(300000, 900000);
 
             setTimeout(() => {
-                selfVoice.setMute(false);
                 selfVoice.setDeaf(false);
                 connection.destroy();
             }, time + soundDelay);
