@@ -16,13 +16,18 @@ module.exports = {
                 adapterCreator: interaction.guild.voiceAdapterCreator,
             });
 
-            interaction.guild.members.me.voice.setMute(false);
+            const selfVoice = interaction.guild.members.me.voice;
+
+            selfVoice.setMute(false);
+            selfVoice.setDeaf(false);
             connection.subscribe(player);
             player.play(resource);
 
+            const soundDelay = 7000;
             setTimeout(() => {
-                interaction.guild.members.me.voice.setMute(true);
-            }, 7000);
+                selfVoice.setMute(true);
+                selfVoice.setDeaf(true);
+            }, soundDelay);
 
             const rand = (min, max) => {
                 return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -30,9 +35,10 @@ module.exports = {
             const time = rand(5000, 15000);
 
             setTimeout(() => {
-                interaction.guild.members.me.voice.setMute(false);
+                selfVoice.setMute(false);
+                selfVoice.setDeaf(false);
                 connection.destroy();
-            }, time);
+            }, time + soundDelay);
         } catch (error) {
             console.log(error);
         }
