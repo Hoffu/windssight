@@ -16,12 +16,12 @@ module.exports = {
                 adapterCreator: interaction.guild.voiceAdapterCreator,
             });
 
-            connection.voice.setSelfDeaf(false);
+            guild.members.me.voice.setMute(false);
             connection.subscribe(player);
             player.play(resource);
 
             setTimeout(() => {
-                connection.voice.setSelfDeaf(false);
+                guild.members.me.voice.setMute(true);
             }, 7000);
 
             const rand = (min, max) => {
@@ -30,7 +30,7 @@ module.exports = {
             const time = rand(5000, 15000);
 
             setTimeout(() => {
-                connection.voice.setSelfDeaf(false);
+                guild.members.me.voice.setMute(false);
                 connection.destroy();
             }, time);
         } catch (error) {
