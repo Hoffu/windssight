@@ -7,7 +7,6 @@ module.exports = {
         .setDescription('Bot joins to the voice chat and chill there for 5-15 minutes'),
     async execute(interaction) {
         try {
-            interaction.guild.me.voice.setMute(false);
             const player = createAudioPlayer();
             const resource = createAudioResource('./sounds/andrew.mp3');
 
@@ -17,11 +16,12 @@ module.exports = {
                 adapterCreator: interaction.guild.voiceAdapterCreator,
             });
 
+            connection.voice.setSelfDeaf(false);
             connection.subscribe(player);
             player.play(resource);
 
             setTimeout(() => {
-                interaction.guild.me.voice.setMute(true);
+                connection.voice.setSelfDeaf(false);
             }, 7000);
 
             const rand = (min, max) => {
@@ -30,7 +30,7 @@ module.exports = {
             const time = rand(5000, 15000);
 
             setTimeout(() => {
-                interaction.guild.me.voice.setMute(false);
+                connection.voice.setSelfDeaf(false);
                 connection.destroy();
             }, time);
         } catch (error) {
